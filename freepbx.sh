@@ -104,5 +104,6 @@ sed -i 's/Group apache/Group asterisk/'  /etc/httpd/conf/httpd.conf
 service httpd restart
 
 echo -e "\e[1;31m  -  Done with 1 Warning  -  \e[0m"
+echo -e "\e[1;31m  -  Enter to your FreePBX at http://YourIP  -  \e[0m"
 init 6
 
