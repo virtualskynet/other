@@ -84,6 +84,7 @@ mysql -e " GRANT ALL ON *.*  TO 'root'@'localhost'  IDENTIFIED BY '${PASSWORD}';
 
 
 echo -e "\e[1;31m  -  Installing FreePBX  -  \e[0m"
+./start_asterisk start
 ./install_amp --username=root --password=${PASSWORD}
 cd ..
 rm -rf freepbx*
