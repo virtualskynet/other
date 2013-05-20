@@ -19,19 +19,21 @@ then
 	yum -y update
 	echo -e "\e[1;31m  -  You need Run Again This Scrip!!  -  \e[0m"
 	sleep 5
-	init 6
+	done
 fi
 
 
 echo -e "\e[1;31m  -  Installing Linux Tools  -  \e[0m"
 yum -y htop vim-enhanced
 
-echo -e "\e[1;31m  -  Installing VSN Asterisk Realtime Packages  -  \e[0m"
+echo -e "\e[1;31m  -  Installing Asterisk Realtime Packages  -  \e[0m"
 yum -y install unixODBC unixODBC-devel libtool-ltdl libtool-ltdl-devel mysql-connector-odbc mysql mysql-devel  mysql-server
 
-echo -e "\e[1;31m  -  Installing VSN Asterisk Packages  -  \e[0m"
+echo -e "\e[1;31m  -  Installing  Asterisk Packages  -  \e[0m"
 yum -y install  make  gcc  gcc-c++  ncurses-devel  openssl-devel libtermcap-devel libxml2-devel sqlite-devel newt-devel  
 
+echo -e "\e[1;31m  -  Installing  Dahdi Packages  -  \e[0m"
+yum -y install kernel-devel
 wget ${DAHDI}
 tar xvfz dahdi-linux*
 rm -rf *.tar.gz
@@ -66,7 +68,7 @@ service mysqld start
 chkconfig mysqld on
 
 echo -e "\e[1;31m  -  FreePBX Dependencies  -  \e[0m"
-yum -y install bison perl perl-CPAN kernel-devel audiofile-devel sox svn  sendmail sendmail-cf caching-nameserver  tftp-server  libtiff-devel  gtk2-devel 
+yum -y install bison perl perl-CPAN audiofile-devel sox svn  sendmail sendmail-cf caching-nameserver  tftp-server  libtiff-devel  gtk2-devel 
 yum -y install httpd php php-mysql php-pear  php-process php-mbstring php-mcrypt
 chkconfig httpd on
 service httpd start
