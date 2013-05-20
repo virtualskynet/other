@@ -2,6 +2,7 @@
 
 FREEPBX=http://mirror.freepbx.org/freepbx-2.11.0rc1.tar.gz
 ASTERISK=http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-11-current.tar.gz
+DAHDI=http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
 PASSWORD=p4ssw0rd
 
 echo -e ""
@@ -23,6 +24,13 @@ yum -y install unixODBC unixODBC-devel libtool-ltdl libtool-ltdl-devel mysql-con
 echo -e "\e[1;31m  -  Installing VSN Asterisk Packages  -  \e[0m"
 yum -y install  make  gcc  gcc-c++  ncurses-devel  openssl-devel libtermcap-devel libxml2-devel sqlite-devel newt-devel  
 
+wget ${DAHDI}
+tar xvfz dahdi-linux*
+rm -rf *.tar.gz
+cd dahdi-linux*
+make all
+make install
+make config
 
 echo -e "\e[1;31m  -  Installing Asterisk Core  -  \e[0m"
 wget ${ASTERISK}
@@ -35,6 +43,7 @@ make && make install && make config
 chkconfig asterisk on
 cd ..
 rm -rf asterisk*
+
 
 echo -e "\e[1;31m  -  Installing Asterisk Sounds  -  \e[0m"
 cd /var/lib/asterisk/sounds
