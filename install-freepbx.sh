@@ -17,9 +17,9 @@ if [[ $? == 100 ]]
 then
 	echo -e "\e[1;31m  -  Running Initial Update  -  \e[0m"
 	yum -y update
-	echo -e "\e[1;31m  -  You need Run Again This Scrip!!  -  \e[0m"
+	echo -e "\e[1;31m  -  You Need Run This Scrip Again Befeore Reboot!!  -  \e[0m"
+	init 6
 	sleep 5
-	done
 fi
 
 
@@ -122,6 +122,6 @@ sed -i 's/User apache/User asterisk/'  /etc/httpd/conf/httpd.conf
 sed -i 's/Group apache/Group asterisk/'  /etc/httpd/conf/httpd.conf
 service httpd restart
 
-echo -e "\e[1;31m  -  Done with 1 Warning  -  \e[0m"
-echo -e "\e[1;31m  -  Enter to your FreePBX at http://YourIP  -  \e[0m"
 
+echo -e "\e[1;31m  -  Enter to your FreePBX at http://YourIP  -  \e[0m"
+init 6
