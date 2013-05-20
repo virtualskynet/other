@@ -12,8 +12,16 @@ echo -e ""
 echo -e "\e[1;31m  -  Disable Selinux Runtime  -  \e[0m"
 sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 
-echo -e "\e[1;31m  -  Running Initial Update  -  \e[0m"
-yum -y update
+yum check-update > /tmp/checkupdate.log
+if [[ $? == 100 ]]
+then
+	echo -e "\e[1;31m  -  Running Initial Update  -  \e[0m"
+	yum -y update
+	echo -e "\e[1;31m  -  You need Run Again This Scrip!!  -  \e[0m"
+	sleep 5
+	init 6
+fi
+
 
 echo -e "\e[1;31m  -  Installing Linux Tools  -  \e[0m"
 yum -y htop vim-enhanced
@@ -114,5 +122,4 @@ service httpd restart
 
 echo -e "\e[1;31m  -  Done with 1 Warning  -  \e[0m"
 echo -e "\e[1;31m  -  Enter to your FreePBX at http://YourIP  -  \e[0m"
-init 6
 
