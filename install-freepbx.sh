@@ -50,6 +50,7 @@ cd asterisk*
 ./configure
 sh contrib/scripts/get_mp3_source.sh
 make && make install && make config
+service asterisk restart
 chkconfig asterisk on
 cd ..
 rm -rf asterisk*
