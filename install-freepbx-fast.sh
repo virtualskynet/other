@@ -2,6 +2,7 @@
 
 FREEPBX=http://mirror.freepbx.org/freepbx-2.10.0.tar.gz
 PASSWORD=p4ssw0rd
+TIMEZONE=`America/Los_Angeles`
 
 echo -e ""
 echo -e "\e[1;31m  -  CentOS 6.X FreePBX AutoInstall Script  -  \e[0m"
@@ -30,6 +31,16 @@ chkconfig httpd on
 service httpd start
 pear install DB
 pear install MDB2
+
+echo -e "\e[1;31m  -  Setting PHP TimeZone  -  \e[0m"
+#sed -i 's/;date.timezone*/date.timezone = `America/Los_Angeles`/' /etc/php.ini
+
+
+
+# PHP5 - Settings
+echo "Setting up php5..."
+sed "s/^date.timezone.*$/date.timezone = $TIMEZONE/" /etc/php.ini
+
 
 echo -e "\e[1;31m  -  Installing Lame  -  \e[0m"
 cd /usr/local/src
