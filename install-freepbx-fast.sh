@@ -13,14 +13,14 @@ sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 
 
 echo -e "\e[1;31m  -  Installing Linux Tools  -  \e[0m"
-yum -y htop vim-enhanced
+yum -y install htop vim-enhanced 
 
 
 echo -e "\e[1;31m  -  Installing  Asterisk Packages  -  \e[0m"
 yum -y install  asterisk  asterisk-sounds-core-en-ulaw asterisk-sqlite  asterisk-voicemail
 
 echo -e "\e[1;31m  -  Installing Database Server  -  \e[0m"
-yum install mysql-server
+yum -y install mysql-server
 service mysqld start
 chkconfig mysqld on
 
