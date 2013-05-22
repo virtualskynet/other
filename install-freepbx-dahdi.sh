@@ -12,6 +12,16 @@ echo -e ""
 echo -e "\e[1;31m  -  Disable Selinux Runtime  -  \e[0m"
 sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 
+yum check-update > /tmp/checkupdate.log
+if [[ $? == 100 ]]
+then
+	echo -e "\e[1;31m  -  Running Initial Update  -  \e[0m"
+	yum -y update
+	echo -e "\e[1;31m  -  You Need Run This Scrip Again Befeore Reboot!!  -  \e[0m"
+	init 6
+	sleep 5
+fi
+
 
 echo -e "\e[1;31m  -  Installing Linux Tools  -  \e[0m"
 yum -y htop vim-enhanced
@@ -22,6 +32,15 @@ yum -y install unixODBC unixODBC-devel libtool-ltdl libtool-ltdl-devel mysql-con
 echo -e "\e[1;31m  -  Installing  Asterisk Packages  -  \e[0m"
 yum -y install  make  gcc  gcc-c++  ncurses-devel  openssl-devel libtermcap-devel libxml2-devel sqlite-devel newt-devel  
 
+echo -e "\e[1;31m  -  Installing  Dahdi Packages  -  \e[0m"
+yum -y install kernel-devel
+wget ${DAHDI}
+tar xvfz dahdi-linux*
+rm -rf *.tar.gz
+cd dahdi-linux*
+make all
+make install
+make config
 
 echo -e "\e[1;31m  -  Installing Asterisk Core  -  \e[0m"
 wget ${ASTERISK}

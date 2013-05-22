@@ -1,8 +1,6 @@
 #! /bin/bash
 
-FREEPBX=http://mirror.freepbx.org/freepbx-2.11.0rc1.tar.gz
-ASTERISK=http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-11-current.tar.gz
-DAHDI=http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
+FREEPBX=http://mirror.freepbx.org/freepbx-2.10.0.tar.gz
 PASSWORD=p4ssw0rd
 
 echo -e ""
@@ -16,33 +14,9 @@ sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 echo -e "\e[1;31m  -  Installing Linux Tools  -  \e[0m"
 yum -y htop vim-enhanced
 
-echo -e "\e[1;31m  -  Installing Asterisk Realtime Packages  -  \e[0m"
-yum -y install unixODBC unixODBC-devel libtool-ltdl libtool-ltdl-devel mysql-connector-odbc mysql mysql-devel  mysql-server
 
 echo -e "\e[1;31m  -  Installing  Asterisk Packages  -  \e[0m"
-yum -y install  make  gcc  gcc-c++  ncurses-devel  openssl-devel libtermcap-devel libxml2-devel sqlite-devel newt-devel  
-
-
-echo -e "\e[1;31m  -  Installing Asterisk Core  -  \e[0m"
-wget ${ASTERISK}
-tar xfz asterisk*
-rm -rf *.tar.gz
-cd asterisk*
-./configure
-sh contrib/scripts/get_mp3_source.sh
-make && make install && make config
-service asterisk restart
-chkconfig asterisk on
-cd ..
-rm -rf asterisk*
-
-
-echo -e "\e[1;31m  -  Installing Asterisk Sounds  -  \e[0m"
-cd /var/lib/asterisk/sounds
-wget http://downloads.asterisk.org/pub/telephony/sounds/asterisk-extra-sounds-en-wav-current.tar.gz
-tar xfz asterisk-extra-sounds-en-wav-current.tar.gz
-rm asterisk-extra-sounds-en-gsm-current.tar.gz
-cd /root
+yum -y install  asterisk  asterisk-sounds-core-en-ulaw asterisk-sqlite  asterisk-voicemail
 
 echo -e "\e[1;31m  -  Installing Database Server  -  \e[0m"
 yum install mysql-server
@@ -66,6 +40,7 @@ cd lame-3.99.5
 make
 make install
 
+
 echo -e "\e[1;31m  -  Installing FreePBX  -  \e[0m"
 wget ${FREEPBX}
 tar xvfz freepbx*
@@ -74,7 +49,6 @@ cd freepbx*
 
 echo -e "\e[1;31m  -  Setting Up Database Server  -  \e[0m"
 echo "bind-address=0.0.0.0" >> /etc/my.cnf
-#echo "lower_case_table_names = 1" >> /etc/my.cnf
 mysql -e " DROP DATABASE test "
 mysql -e " CREATE DATABASE asteriskcdrdb "
 mysql -e " CREATE DATABASE asterisk "
@@ -92,11 +66,10 @@ rm -rf freepbx*
 
 echo -e "\e[1;31m  -  Setting FreePBX Perms  -  \e[0m"
 adduser asterisk -M -c "Asterisk User"
-chown asterisk. /var/run/asterisk
-chown -R asterisk. /etc/asterisk
-chown -R asterisk. /var/{lib,log,spool}/asterisk
-chown -R asterisk. /usr/lib/asterisk
-chown -R asterisk. /var/www/
+chown asterisk /var/run/asterisk
+chown -R asterisk /etc/asterisk
+chown -R asterisk /var/{lib,log,spool}/asterisk
+chown -R asterisk /var/www/
 
 echo -e "\e[1;31m  -  Setting in Apache  -  \e[0m"
 sed -i 's/upload_max_filesize =.*/upload_max_filesize = 120M/' /etc/php.ini
