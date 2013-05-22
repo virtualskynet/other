@@ -1,5 +1,5 @@
 #! /bin/bash
-ASTERISK=http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-11-current.tar.gz
+ASTERISK=http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-1.8-current.tar.gz
 FREEPBX=http://mirror.freepbx.org/freepbx-2.10.0.tar.gz
 PASSWORD=p4ssw0rd
 TIMEZONE=`America/Los_Angeles`
@@ -27,7 +27,7 @@ rm -rf *.tar.gz
 cd asterisk*
 ./configure
 make && make install && make config
-service asterisk restart
+service asterisk start
 chkconfig asterisk on
 cd ..
 rm -rf asterisk*
@@ -90,8 +90,8 @@ mysql -e " GRANT ALL ON *.*  TO 'root'@'localhost'  IDENTIFIED BY '${PASSWORD}';
 
 
 echo -e "\e[1;31m  -  Installing FreePBX  -  \e[0m"
-./start_asterisk start
-./install_amp --username=root --password=${PASSWORD}
+#./start_asterisk start
+./install_amp --username = root --password = ${PASSWORD}
 cd ..
 rm -rf freepbx*
 
