@@ -14,6 +14,12 @@ sed -i 's/SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
 echo -e "\e[1;31m  -  Installing Linux Tools  -  \e[0m"
 yum -y install htop vim-enhanced 
 
+echo -e "\e[1;31m  -  Installing Asterisk Realtime Packages  -  \e[0m"
+yum -y install unixODBC unixODBC-devel libtool-ltdl libtool-ltdl-devel mysql-connector-odbc mysql mysql-devel  mysql-server
+
+echo -e "\e[1;31m  -  Installing  Asterisk Packages  -  \e[0m"
+yum -y install  make  gcc  gcc-c++  ncurses-devel  openssl-devel libtermcap-devel libxml2-devel sqlite-devel newt-devel  
+
 echo -e "\e[1;31m  -  Installing Asterisk Core  -  \e[0m"
 wget ${ASTERISK}
 tar xfz asterisk*
