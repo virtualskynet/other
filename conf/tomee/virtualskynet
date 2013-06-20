@@ -1,0 +1,59 @@
+#!/bin/bash
+# chkconfig: 234 20 80
+# description: Tomcat Server basic start/shutdown script
+# processname: tomcat
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Get config.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "${NETWORKING}" = "no" ] && exit 0
+
+virtualskynet=/root/virtualskynet
+startup=$virtualskynet/bin/startup.sh
+shutdown=$virtualskynet/bin/shutdown.sh
+export JAVA_HOME=/usr/java/jdk1.7.0_21
+
+start(){
+        echo -n $"Starting VirtualSkynet service: "
+        #daemon -c 
+        $startup
+        RETVAL=$?
+        echo
+}
+
+stop(){
+        action $"Stopping VirtualSkynet service: " $shutdown
+        RETVAL=$?
+        echo
+}   
+restart(){
+    stop
+    start
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        # This doesn't work ;)
+        status virtualskynet
+        ;;
+  restart)
+        restart
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|status|restart}"
+        exit 1
+esac
+
+exit 0
+

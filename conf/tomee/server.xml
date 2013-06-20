@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Server port="85" shutdown="SHUTDOWN">
+  <!-- TomEE plugin for Tomcat -->
+  <Listener className="org.apache.tomee.catalina.ServerListener"/>
+  <!-- Security listener. Documentation at /docs/config/listeners.html
+  <Listener className="org.apache.catalina.security.SecurityListener" />
+  -->
+  <!--APR library loader. Documentation at /docs/apr.html -->
+  <Listener SSLEngine="on" className="org.apache.catalina.core.AprLifecycleListener"/>
+  <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
+  <Listener className="org.apache.catalina.core.JasperListener"/>
+  <!-- Prevent memory leaks due to use of particular java/javax APIs-->
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener"/>
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener"/>
+
+  <Service name="Catalina">
+
+    <Connector address="127.0.0.1" connectionTimeout="20000" port="80" protocol="HTTP/1.1" redirectPort="8443"/>  
+    <Connector port="89" protocol="AJP/1.3" redirectPort="8443"/>
+    <Engine defaultHost="localhost" name="Catalina">
+
+    	<Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
+			<Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log." suffix=".txt"/>
+		</Host>
+		
+    </Engine>
+  
+  </Service>
+  
+   <Service name="Sip-Servlets" 
+		sipPathName="org.mobicents.ext"  
+  		className="org.mobicents.servlet.sip.startup.SipStandardService" 
+  		sipApplicationDispatcherClassName="org.mobicents.servlet.sip.core.SipApplicationDispatcherImpl"  		
+		concurrencyControlMode="None" 
+		congestionControlCheckingInterval="-1"
+  		darConfigurationFileLocation="conf/dars/mobicents-dar.properties"
+  		sipStackPropertiesFile="conf/mss-sip-stack.properties">
+  
+    <Connector port="8080" protocol="HTTP/1.1" connectionTimeout="20000" redirectPort="8443" />
+    
+    <!-- Define an AJP 1.3 Connector on port 8009 -->
+    <Connector port="8009" protocol="AJP/1.3" redirectPort="8443" />
+
+    <!-- Define a SIP Connector on port 5080 -->
+    <Connector port="5080" ipAddress = "127.0.0.1" protocol="org.mobicents.servlet.sip.startup.SipProtocolHandler" signalingTransport="udp"/>
+	
+    <!-- Define the default TCP SIP Connector -->
+    <Connector port="5080" ipAddress = "127.0.0.1" protocol="org.mobicents.servlet.sip.startup.SipProtocolHandler" signalingTransport="tcp"/>
+    	 
+    <!-- Define the default TLS SIP Connector -->
+    <Connector port="5081" ipAddress = "127.0.0.1" protocol="org.mobicents.servlet.sip.startup.SipProtocolHandler" signalingTransport="tls"/>
+
+    <!-- Define the default WebSocket SIP Connector -->
+    <Connector port="5082" ipAddress = "127.0.0.1" protocol="org.mobicents.servlet.sip.startup.SipProtocolHandler" signalingTransport="ws"/>
+
+    <Engine defaultHost="localhost" name="Sip-Servlets" className="org.mobicents.servlet.sip.startup.SipStandardEngine">
+
+		<Host className="org.mobicents.servlet.sip.startup.SipStandardHost" appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true" configClass="org.mobicents.servlet.sip.startup.SipContextConfig">
+			<Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"  prefix="localhost_access_log." suffix=".txt" pattern="%h %l %u %t &quot;%r&quot; %s %b" resolveHosts="false"/>
+		</Host>
+    </Engine>
+	
+  </Service>
+   
+  
+</Server>

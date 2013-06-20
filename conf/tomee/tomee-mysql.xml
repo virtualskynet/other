@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+
+<Container id="My Singleton Container" type="SINGLETON"> 
+</Container>
+
+<Container id="My Stateful Container" type="STATEFUL">
+  AccessTimeout = 30 seconds 
+  Passivator   org.apache.openejb.core.stateful.SimplePassivater
+  TimeOut  20
+  Frequency 60
+  Capacity  1000
+  BulkPassivate  100
+</Container>
+
+<Container id="My Stateless Container" type="STATELESS">
+  AccessTimeout = 30 seconds
+  MaxSize = 10
+  MinSize = 0  
+  StrictPooling = true
+  MaxAge = 0 hours
+  IdleTimeout = 0 minutes
+</Container>
+
+<Resource id="jdbc/security" type="DataSource">
+  JdbcDriver com.mysql.jdbc.Driver
+  JdbcUrl jdbc:mysql://db.virtualskynet.com/security
+  UserName root
+  Password p4ssw0rd
+  JtaManaged true
+</Resource>
+
+<Resource id="jdbc/pbx" type="DataSource">
+  JdbcDriver com.mysql.jdbc.Driver
+  JdbcUrl jdbc:mysql://db.virtualskynet.com/pbx
+  UserName root
+  Password p4ssw0rd
+  JtaManaged true
+</Resource>
+
+<Resource id="jdbc/billing" type="DataSource">
+  JdbcDriver com.mysql.jdbc.Driver
+  JdbcUrl jdbc:mysql://db.virtualskynet.com/billing
+  UserName root
+  Password p4ssw0rd
+  JtaManaged true
+</Resource>
+
+<Resource id="jdbc/callcenter" type="DataSource">
+  JdbcDriver com.mysql.jdbc.Driver
+  JdbcUrl jdbc:mysql://db.virtualskynet.com/callcenter
+  UserName root
+  Password p4ssw0rd
+  JtaManaged true
+</Resource>
+
+<Resource id="mail" type="javax.mail.Session">
+   mail.smtp.host=smtp.gmail.com
+   mail.smtp.starttls.enable=true
+   mail.smtp.port=587
+   mail.transport.protocol=smtp
+   mail.smtp.auth=true
+   mail.smtp.user=admin@virtualskynet.com
+   mail.smtp.password=p4ssw0rd
+   password=p4ssw0rd
+</Resource>
+
+<Deployments dir="apps/" />
+
+</tomee>
